@@ -26,9 +26,17 @@ const EmailGateModal = ({ onSuccess }) => {
       >
         <h2 className="text-2xl font-bold mb-4 text-center">Welcome!</h2>
         <p className="text-gray-300 mb-6 text-center">
-          Please enter your email to access the site.
+          Please enter your name and email to access the site.
         </p>
         <form onSubmit={handleSubmit} className="space-y-4">
+          <input
+            id="name"
+            type="text"
+            name="name"
+            required
+            placeholder="Your full name"
+            className="w-full px-4 py-2 border border-gray-600 rounded-xl bg-gray-800 text-white placeholder-gray-400 focus:border-orange-500 focus:ring-orange-500 focus:outline-none"
+          />
           <input
             id="email"
             type="email"
@@ -47,7 +55,7 @@ const EmailGateModal = ({ onSuccess }) => {
         </form>
         {state.errors && state.errors.length > 0 && (
           <p className="text-red-400 mt-4 text-center">
-            There was an error submitting your email. Please try again.
+            There was an error submitting your information. Please try again.
           </p>
         )}
       </motion.div>
