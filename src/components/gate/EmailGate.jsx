@@ -6,10 +6,11 @@ const EmailGate = ({ children }) => {
   const [isGated, setIsGated] = useState(true);
 
   useEffect(() => {
-    const hasVisited = localStorage.getItem('sk_has_visited');
-    if (hasVisited === 'true') {
-      setIsGated(false);
-    }
+    // Temporarily disabled for testing - uncomment below to enable gate
+    // const hasVisited = localStorage.getItem('sk_has_visited');
+    // if (hasVisited === 'true') {
+    //   setIsGated(false);
+    // }
   }, []);
 
   useEffect(() => {
@@ -24,7 +25,8 @@ const EmailGate = ({ children }) => {
   }, [isGated]);
 
   const handleSuccess = () => {
-    localStorage.setItem('sk_has_visited', 'true');
+    // Temporarily disabled for testing - uncomment below to enable persistence
+    // localStorage.setItem('sk_has_visited', 'true');
     setIsGated(false);
   };
 
