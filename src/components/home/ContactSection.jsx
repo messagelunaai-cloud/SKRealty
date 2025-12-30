@@ -43,27 +43,6 @@ export default function ContactSection() {
     },
   ]
 
-  const contactInfo = [
-    {
-      icon: Phone,
-      label: 'Mobile',
-      value: '571-663-3911',
-      href: 'tel:5716633911',
-    },
-    {
-      icon: Phone,
-      label: 'Office',
-      value: '703-636-7300',
-      href: 'tel:7036367300',
-    },
-    {
-      icon: Mail,
-      label: 'Email',
-      value: 'Sabeen3911@gmail.com',
-      href: 'mailto:Sabeen3911@gmail.com',
-    },
-  ]
-
   return (
     <section id="contact" className="py-24 lg:py-32 bg-white">
       <div className="container mx-auto px-6 lg:px-12">
