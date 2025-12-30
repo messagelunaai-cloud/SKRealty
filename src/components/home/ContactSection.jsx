@@ -1,13 +1,34 @@
-import React from 'react'
+import { useForm, ValidationError } from '@formspree/react';
+import React, { useState } from 'react'
 import { motion } from 'framer-motion'
-import { useForm, ValidationError } from '@formspree/react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Phone, Mail, MapPin, Send, CheckCircle } from 'lucide-react'
 
+function ContactForm() {
+  const [state, handleSubmit] = useForm("mzdbkdnb");
+  if (state.succeeded) {
+      return <p>Thanks for joining!</p>;
+  }
+
 export default function ContactSection() {
-  const [state, handleSubmit] = useForm("mzdbkdnb")
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    message: '',
+  })
+  const [submitted, setSubmitted] = useState(false)
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    setSubmitted(true)
+    setTimeout(() => {
+      setSubmitted(false)
+      setFormData({ name: '', email: '', phone: '', message: '' })
+    }, 3000)
+  }
 
   const contactInfo = [
     {
@@ -40,9 +61,7 @@ export default function ContactSection() {
           transition={{ duration: 0.6 }}
           className="text-center max-w-3xl mx-auto mb-16"
         >
-          <span className="text-[#B40101] font-semibold tracking-wide uppercase text-sm">
-            Get In Touch
-          </span>
+          <span className="text-[#B40101] font-semibold tracking-wide uppercase text-sm">Get In Touch</span>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mt-4 mb-6">
             Let&apos;s Start Your Journey
           </h2>
@@ -60,7 +79,7 @@ export default function ContactSection() {
             className="lg:col-span-3"
           >
             <div className="bg-gray-50 rounded-3xl p-8 lg:p-10">
-              {state.succeeded ? (
+              {submitted ? (
                 <motion.div
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
@@ -76,66 +95,58 @@ export default function ContactSection() {
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid sm:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Your Name
-                      </label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Your Name</label>
                       <Input
-                        name="name"
                         type="text"
+                        value={formData.name}
+                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                         placeholder="John Smith"
                         className="h-12 rounded-xl border-gray-200 focus:border-[#B40101] focus:ring-[#B40101]"
                         required
                       />
                     </div>
-
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Email Address
-                      </label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
                       <Input
-                        name="email"
                         type="email"
+                        value={formData.email}
+                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                         placeholder="john@example.com"
                         className="h-12 rounded-xl border-gray-200 focus:border-[#B40101] focus:ring-[#B40101]"
                         required
                       />
-                      <ValidationError prefix="Email" field="email" errors={state.errors} />
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Phone Number
-                    </label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
                     <Input
-                      name="phone"
                       type="tel"
+                      value={formData.phone}
+                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                       placeholder="(555) 123-4567"
                       className="h-12 rounded-xl border-gray-200 focus:border-[#B40101] focus:ring-[#B40101]"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Message
-                    </label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Message</label>
                     <Textarea
-                      name="message"
+                      value={formData.message}
+                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                       placeholder="Tell me about your real estate goals..."
                       className="min-h-[140px] rounded-xl border-gray-200 focus:border-[#B40101] focus:ring-[#B40101] resize-none"
                       required
                     />
-                    <ValidationError prefix="Message" field="message" errors={state.errors} />
                   </div>
 
                   <Button
                     type="submit"
                     size="lg"
-                    disabled={state.submitting}
                     className="w-full bg-[#B40101] hover:bg-[#8B0000] text-white h-14 rounded-xl text-lg shadow-lg shadow-[#B40101]/25 transition-all duration-300 hover:shadow-xl"
                   >
                     <Send className="w-5 h-5 mr-2" />
-                    {state.submitting ? 'Sending…' : 'Send Message'}
+                    Send Message
                   </Button>
                 </form>
               )}
@@ -150,9 +161,7 @@ export default function ContactSection() {
             className="lg:col-span-2"
           >
             <div className="space-y-6">
-              <h3 className="text-2xl font-bold text-gray-900 mb-8">
-                Contact Information
-              </h3>
+              <h3 className="text-2xl font-bold text-gray-900 mb-8">Contact Information</h3>
 
               {contactInfo.map((item, index) => (
                 <motion.a
@@ -176,13 +185,11 @@ export default function ContactSection() {
 
               <div className="mt-8 p-6 bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl text-white">
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center">
+                  <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center flex-shrink-0">
                     <MapPin className="w-5 h-5" />
                   </div>
                   <div>
-                    <p className="font-semibold mb-2">
-                      Keller Williams McLean/Great Falls
-                    </p>
+                    <p className="font-semibold mb-2">Keller Williams McLean/Great Falls</p>
                     <p className="text-gray-300 text-sm leading-relaxed">
                       6820 Elm Street, Ste. 100
                       <br />
