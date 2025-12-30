@@ -12,6 +12,8 @@ function ContactForm() {
       return <p>Thanks for joining!</p>;
   }
 
+}
+
 export default function ContactSection() {
   const [formData, setFormData] = useState({
     name: '',
@@ -143,7 +145,7 @@ export default function ContactSection() {
                   <Button
                     type="submit"
                     size="lg"
-                    className="w-full bg-[#B40101] hover:bg-[#8B0000] text-white h-14 rounded-xl text-lg shadow-lg shadow-[#B40101]/25 transition-all duration-300 hover:shadow-xl"
+                    className="w-full bg-orange-500 hover:bg-orange-600 text-white h-14 rounded-xl text-lg shadow-lg shadow-orange-500/25 transition-all duration-300 hover:shadow-xl"
                   >
                     <Send className="w-5 h-5 mr-2" />
                     Send Message
@@ -173,8 +175,8 @@ export default function ContactSection() {
                   transition={{ duration: 0.4, delay: index * 0.1 }}
                   className="flex items-center gap-4 p-5 bg-gray-50 rounded-2xl hover:bg-gray-100 transition-colors duration-300 group"
                 >
-                  <div className="w-12 h-12 bg-[#B40101]/10 rounded-xl flex items-center justify-center group-hover:bg-[#B40101] transition-colors duration-300">
-                    <item.icon className="w-5 h-5 text-[#B40101] group-hover:text-white transition-colors duration-300" />
+                  <div className="w-12 h-12 bg-orange-500/10 rounded-xl flex items-center justify-center group-hover:bg-orange-500 transition-colors duration-300">
+                    <item.icon className="w-5 h-5 text-orange-500 group-hover:text-white transition-colors duration-300" />
                   </div>
                   <div>
                     <p className="text-sm text-gray-500">{item.label}</p>
