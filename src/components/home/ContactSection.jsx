@@ -6,31 +6,42 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Phone, Mail, MapPin, Send, CheckCircle } from 'lucide-react'
 
-function ContactForm() {
-  const [state, handleSubmit] = useForm("xaqykjpl");
-  if (state.succeeded) {
-      return <p>Thanks for joining!</p>;
-  }
-
-}
-
 export default function ContactSection() {
+  const [state, handleSubmit] = useForm("xaqykjpl");
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
     message: '',
   })
-  const [submitted, setSubmitted] = useState(false)
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    setSubmitted(true)
-    setTimeout(() => {
-      setSubmitted(false)
+  // Reset form data when submission succeeds
+  React.useEffect(() => {
+    if (state.succeeded) {
       setFormData({ name: '', email: '', phone: '', message: '' })
-    }, 3000)
-  }
+    }
+  }, [state.succeeded])
+
+  const contactInfo = [
+    {
+      icon: Phone,
+      label: 'Mobile',
+      value: '571-663-3911',
+      href: 'tel:5716633911',
+    },
+    {
+      icon: Phone,
+      label: 'Office',
+      value: '703-636-7300',
+      href: 'tel:7036367300',
+    },
+    {
+      icon: Mail,
+      label: 'Email',
+      value: 'Sabeen3911@gmail.com',
+      href: 'mailto:Sabeen3911@gmail.com',
+    },
+  ]
 
   const contactInfo = [
     {
@@ -81,7 +92,7 @@ export default function ContactSection() {
             className="lg:col-span-3"
           >
             <div className="bg-gray-50 rounded-3xl p-8 lg:p-10">
-              {submitted ? (
+              {state.succeeded ? (
                 <motion.div
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
@@ -100,6 +111,7 @@ export default function ContactSection() {
                       <label className="block text-sm font-medium text-gray-700 mb-2">Your Name</label>
                       <Input
                         type="text"
+                        name="name"
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                         placeholder="John Smith"
@@ -111,6 +123,7 @@ export default function ContactSection() {
                       <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
                       <Input
                         type="email"
+                        name="email"
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                         placeholder="john@example.com"
@@ -124,6 +137,7 @@ export default function ContactSection() {
                     <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
                     <Input
                       type="tel"
+                      name="phone"
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                       placeholder="(555) 123-4567"
@@ -134,6 +148,7 @@ export default function ContactSection() {
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Message</label>
                     <Textarea
+                      name="message"
                       value={formData.message}
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                       placeholder="Tell me about your real estate goals..."
@@ -145,10 +160,11 @@ export default function ContactSection() {
                   <Button
                     type="submit"
                     size="lg"
-                    className="w-full bg-orange-500 hover:bg-orange-600 text-white h-14 rounded-xl text-lg shadow-lg shadow-orange-500/25 transition-all duration-300 hover:shadow-xl"
+                    disabled={state.submitting}
+                    className="w-full bg-orange-500 hover:bg-orange-600 text-white h-14 rounded-xl text-lg shadow-lg shadow-orange-500/25 transition-all duration-300 hover:shadow-xl disabled:opacity-50"
                   >
                     <Send className="w-5 h-5 mr-2" />
-                    Send Message
+                    {state.submitting ? 'Sending...' : 'Send Message'}
                   </Button>
                 </form>
               )}
